@@ -1,7 +1,7 @@
 require('../css/common.less');
 
 <card>
-	<div class="card { back-side: opts.card.hide }">
+	<div if={ !opts.card.hide } class="card">
 		<div class="header">
 			{ opts.card.number }
 		</div>
@@ -12,23 +12,25 @@ require('../css/common.less');
 			{ opts.card.number }
 		</div>
 	</div>
+	<div if={ opts.card.hide } class="card back-side"></div>
 
 	<style type="less">
 		:scope {
+			position: absolute;
 			display: block;
+			left: -1px;
+			top: -1px;
 			width: 100px;
-			height: 200px;
+			height: 150px;
 			border-color: 1px solid black;
 		}
 		.card {
-			border: 2px solid white;
+			width: 100%;
+			height: 100%;
+			border: 2px solid blue;
 
 			&.back-side {
 				background-color: gray;
-
-				* {
-					display: none;
-				}
 			}
 
 			.header, .footer {

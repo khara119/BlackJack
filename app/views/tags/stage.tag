@@ -1,4 +1,6 @@
 require('../css/common.less');
+require('./card.tag');
+const utils = require('../js/utils.js');
 
 <stage>
 	<div class="dealer-area">
@@ -27,6 +29,7 @@ require('../css/common.less');
 		:scope {
 			display: block;
 			width: 100%;
+			min-width: 600px;
 			height: 100%;
 			background-color: forestgreen;
 		}
@@ -39,6 +42,7 @@ require('../css/common.less');
 			padding: 20px;
 
 			.deck-area {
+				position: relative;
 				display: inline-block;
 				width: 100px;
 				height: 150px;
@@ -69,6 +73,8 @@ require('../css/common.less');
 		}
 	</style>
 
+	this.mixin(utils);
+
 	this.cards = [];
 	this.suits = ['S', 'H', 'D', 'C'];
 	this.players = [];
@@ -85,9 +91,26 @@ require('../css/common.less');
 		}
 
 		for (let i=0; i<5; i++) {
-			this.players.push({
-				name: this.generateName(),
-				bet: 0,
-				tip: this.randomInt(1000, 100000),
+			this.joinPlayer();
+		}
+
+		this.update();
 	});
+
+	this.shuffle = () => {
+		for (let i = this.cards.length -1; i >= 0; i--) {
+			const rand = this.randomInt(0, i);
+			[this.cards[i], this.cards[rand]] =
+				[this.cards[rand], this.cards[i]];
+		}
+	};
+
+	this.joinPlayer = () => {
+		this.players.push({
+			name: this.generateName(),
+			bet: 0,
+			tip: Math.floor(Math.random() * (100000 + 1 - 1000)) + 1000,
+		});
+	};
+
 </stage>
